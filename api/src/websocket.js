@@ -3,7 +3,11 @@ const { Server } = require('socket.io');
 let io; 
 
 const initializeWebSocket = (server) => {
-    io = new Server(server); 
+    io = new Server(server, {
+        cors: {
+            origin: "*"
+        }
+    }); 
 
     io.on('connection', (socket) => {
         console.log('New client connected:', socket.id);
