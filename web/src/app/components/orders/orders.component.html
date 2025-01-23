@@ -19,10 +19,10 @@
     </mat-card-content>
     <div class="buttons">
       <mat-card-actions>
-        <button color="primary" (click)="changeStatus(order, 'In Progress')" mat-flat-button>In Progress</button>
+        <button color="primary" (click)="changeStatus(order, 'In Progress')"  [disabled]="order.status === 'In Progress'" mat-flat-button>In Progress</button>
       </mat-card-actions>
       <mat-card-actions>
-        <button color="primary" (click)="changeStatus(order, 'Finished')" mat-flat-button>Finished</button>
+        <button color="primary" (click)="changeStatus(order, 'Finished')"  [disabled]="order.status === 'Finished'" mat-flat-button>Finished</button>
       </mat-card-actions>
     </div>
   </mat-card>
