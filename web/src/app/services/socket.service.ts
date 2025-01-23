@@ -31,21 +31,28 @@ export class SocketService {
     return new Observable((observer) => {
       if (this.socket) {
         this.socket.on(event, (data) => {
-          console.log('Evento recebido:', event, data);
           this.ngZone.run(() => {
             observer.next(data);
           });
         });
 
         return () => {
-          console.log('Evento desconectado:', event);
+          console.log('Event disconnected:', event);
           this.socket.off(event);
         };
       } else {
-        observer.error('Socket não está inicializado.');
+        observer.error('Socket is not initialized.');
         return;
       }
     });
   }
 
+  emit(event: string, data: any): void {
+    if (this.socket) {
+      console.log('Emitting event:', event, 'with data:', data);
+      this.socket.emit(event, data);
+    } else {
+      console.error('Socket is not initialized.');
+    }
+  }
 }

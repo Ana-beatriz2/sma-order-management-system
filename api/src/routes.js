@@ -4,4 +4,8 @@ const router = express.Router();
 
 router.post('/orders', orderController.receiveOrders);
 
+router.get('/orders', orderController.sendOrdersWithChangedStatus);
+
+router.post('/changed-orders', orderController.saveOrderWithChangedStatus);
+
 module.exports = router;
