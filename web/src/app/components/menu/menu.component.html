@@ -1,1 +1,32 @@
-<p>menu works!</p>
+<mat-toolbar color="primary" class="page-header">
+  <span>New Order</span>
+</mat-toolbar>
+
+<div class="menu-container">
+  <mat-card class="menu-card" *ngFor="let item of items">
+    <mat-card-header>
+      <mat-card-title>{{ item.name }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        <strong>Quantity</strong>
+        <button mat-icon-button color="primary" (click)="decreaseQuantity(item)" [disabled]="item.quantity <= 0">
+          <mat-icon>remove</mat-icon>
+        </button>
+        {{ item.quantity }}
+        <button mat-icon-button color="primary" (click)="increaseQuantity(item)">
+          <mat-icon>add</mat-icon>
+        </button>
+      </p>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<mat-form-field class="example-full-width">
+  <mat-label>Client name</mat-label>
+  <input matInput [(ngModel)]="clientName">
+</mat-form-field>
+
+<mat-card-actions>
+  <button color="primary" mat-flat-button (click)="finalizeOrder()">Finalize order</button>
+</mat-card-actions>
