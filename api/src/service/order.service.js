@@ -1,5 +1,6 @@
 const { getWebSocketInstance } = require('../websocket');
 const ordersWithChangedStatus = [];
+const newOrders = [];
 
 module.exports = {
     async receiveOrders(orders) {
@@ -13,7 +14,9 @@ module.exports = {
 
     async sendOrdersWithChangedStatus() {
         try {
-            return ordersWithChangedStatus;
+            const ordersWithChangedStatusArray = [...ordersWithChangedStatus];
+            ordersWithChangedStatus.splice(0, ordersWithChangedStatus.length);
+            return ordersWithChangedStatusArray;
         } catch (error) {
             throw error;
         }
@@ -30,6 +33,28 @@ module.exports = {
             }
 
             ordersWithChangedStatus.push(order);
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    async saveNewOrder(newOrder) {
+        try {
+            newOrders.push(newOrder);
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    async sendNewOrders() {
+        try {
+            const newOrdersAdjusted = newOrders.map(order => ({
+                id: Date.now(),
+                ...order,
+                status: "Received"
+            }));
+            newOrders.splice(0, newOrders.length);
+            return newOrdersAdjusted;
         } catch (error) {
             throw error;
         }

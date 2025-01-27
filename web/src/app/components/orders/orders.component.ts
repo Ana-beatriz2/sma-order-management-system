@@ -7,7 +7,7 @@ import { SocketService } from '../../services/socket.service';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { OrdersChangedService } from '../../services/orders-changed.service';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-orders',
@@ -25,7 +25,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
   constructor(
     private socketService: SocketService,
     private ngZone: NgZone,
-    private ordersChangedService: OrdersChangedService
+    private orderService: OrderService
   ) {
   }
 
@@ -44,7 +44,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
     this.socketService.disconnect();
   }
 
-  changeStatus(order: any, status: string): void {
+  async changeStatus(order: any, status: string): Promise<void> {
     const orderToChangeStatusindex = this.orders.findIndex(arrayOrder => arrayOrder.id === order.id);
     this.orders[orderToChangeStatusindex].status = status;
 
@@ -53,6 +53,6 @@ export class OrdersComponent implements OnInit, OnDestroy {
       this.orders.push(finishedOrder);
     }
 
-    this.ordersChangedService.sendOrderWithChangedStatus(order);
+    await this.orderService.sendOrderWithChangedStatus(order);
   }
 }

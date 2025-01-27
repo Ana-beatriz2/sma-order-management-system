@@ -4,8 +4,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import {MatInputModule} from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-menu',
@@ -15,6 +16,11 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './menu.component.css'
 })
 export class MenuComponent {
+
+  constructor(private orderService: OrderService) {
+  }
+
+
   items = [
     { name: 'Produto A', quantity: 0 },
     { name: 'Produto B', quantity: 0 },
@@ -32,24 +38,24 @@ export class MenuComponent {
     }
   }
 
-  finalizeOrder() {
+  async finalizeOrder() {
     const selectedItems = this.items.filter(item => item.quantity > 0);
 
     const order = {
       clientName: this.clientName,
-      item: selectedItems
-    }
-
-    if (!this.clientName) {
-      alert('Please enter the client name!');
-      return;
+      items: selectedItems
     }
 
     if (selectedItems.length === 0) {
-      alert('No items selected!');
+      alert('No items selected');
       return;
     }
 
-    console.log(order);
+    if (!this.clientName) {
+      alert('Please enter the client name');
+      return;
+    }
+
+    await this.orderService.saveNewOrder(order);
   }
 }

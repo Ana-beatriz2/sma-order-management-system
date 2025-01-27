@@ -23,11 +23,29 @@ module.exports = {
     async saveOrderWithChangedStatus(req, res) {
         try {
             const order = req.body;
-            console.log(order)
             await orderService.saveOrderWithChangedStatus(order);
             res.status(200).json({ message: 'Order saved'});
         } catch (error) {
             res.status(500).json({ message: "Error retriving data"});
+        }
+    },
+
+    async saveNewOrder(req, res) {
+        try {
+            const newOrder = req.body;
+            await orderService.saveNewOrder(newOrder);
+            res.status(200).json({ message: 'New orders saved'});
+        } catch (error) {
+            res.status(500).json({ message: "Error saving data"});
+        }
+    },
+
+    async sendNewOrders(req, res) {
+        try {
+            const newOrders = await orderService.sendNewOrders();
+            res.status(200).json(newOrders);
+        } catch(error) {
+            res.status(500).json({ message: "Error sending data"});
         }
     }
 }
