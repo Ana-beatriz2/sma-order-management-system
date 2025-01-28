@@ -17,14 +17,29 @@ import { OrderService } from '../../services/order.service';
 })
 export class MenuComponent {
 
-  constructor(private orderService: OrderService) {
-  }
-
+  constructor(private orderService: OrderService) {}
 
   items = [
-    { name: 'Produto A', quantity: 0 },
-    { name: 'Produto B', quantity: 0 },
-    { name: 'Produto C', quantity: 0 },
+    { name: 'Classic Burger', quantity: 0 },
+    { name: 'Cheeseburger', quantity: 0 },
+    { name: 'French Fries', quantity: 0 },
+    { name: 'Chicken Sandwich', quantity: 0 },
+    { name: 'Chicken Croquette', quantity: 0 },
+    { name: 'Soda', quantity: 0 },
+    { name: 'Fresh Juice', quantity: 0 },
+    { name: 'Pepperoni Pizza', quantity: 0 },
+    { name: 'Bacon Burger', quantity: 0 },
+    { name: 'Meat Pastry', quantity: 0 },
+    { name: 'Grilled Cheese Sandwich', quantity: 0 },
+    { name: 'Chicken Wrap', quantity: 0 },
+    { name: 'Hot Dog', quantity: 0 },
+    { name: 'Fish and Chips', quantity: 0 },
+    { name: 'Cheese Fries', quantity: 0 },
+    { name: 'Veggie Burger', quantity: 0 },
+    { name: 'Caesar Salad', quantity: 0 },
+    { name: 'Chicken Tenders', quantity: 0 },
+    { name: 'Onion Rings', quantity: 0 },
+    { name: 'Milkshake', quantity: 0 }
   ];
   clientName: string = '';
 
@@ -56,6 +71,7 @@ export class MenuComponent {
       return;
     }
 
+    alert('Order finalized');
     await this.orderService.saveNewOrder(order);
   }
 }

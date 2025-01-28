@@ -22,11 +22,13 @@
   </mat-card>
 </div>
 
-<mat-form-field class="example-full-width">
+<mat-form-field class="client-name">
   <mat-label>Client name</mat-label>
   <input matInput [(ngModel)]="clientName">
 </mat-form-field>
 
-<mat-card-actions>
-  <button color="primary" mat-flat-button (click)="finalizeOrder()">Finalize order</button>
+<mat-card-actions class="finalize-container">
+  <button color="primary" class="finalize-order-button" mat-flat-button (click)="finalizeOrder()">
+    Finalize order
+  </button>
 </mat-card-actions>
