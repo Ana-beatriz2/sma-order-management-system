@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -7,6 +7,7 @@ import { SocketService } from '../../services/socket.service';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { isPlatformBrowser } from '@angular/common';
 import { OrderService } from '../../services/order.service';
 
 @Component({
@@ -25,14 +26,23 @@ export class OrdersComponent implements OnInit, OnDestroy {
   constructor(
     private socketService: SocketService,
     private ngZone: NgZone,
-    private orderService: OrderService
+    private orderService: OrderService,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {
   }
 
   ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      const savedOrders = sessionStorage.getItem('orders');
+      if (savedOrders) {
+        this.orders = JSON.parse(savedOrders);
+      }
+    }
+
     this.subscription = this.socketService.on(this.ordersTopic).subscribe((data) => {
       this.ngZone.run(() => {
         this.orders = data;
+        this.updateSessionStorage();
       });
     });
   }
@@ -53,6 +63,11 @@ export class OrdersComponent implements OnInit, OnDestroy {
       this.orders.push(finishedOrder);
     }
 
+    this.updateSessionStorage();
     await this.orderService.sendOrderWithChangedStatus(order);
+  }
+
+  private updateSessionStorage(): void {
+    sessionStorage.setItem('orders', JSON.stringify(this.orders));
   }
 }
