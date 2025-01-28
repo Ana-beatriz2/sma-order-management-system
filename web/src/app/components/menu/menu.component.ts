@@ -7,6 +7,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
+import { INewOrder } from '../../models/order.model';
+
+interface Iitem {
+  name: string;
+  quantity: number
+}
 
 @Component({
   selector: 'app-menu',
@@ -43,11 +49,11 @@ export class MenuComponent {
   ];
   clientName: string = '';
 
-  increaseQuantity(item: any): void {
+  increaseQuantity(item: Iitem): void {
     item.quantity++;
   }
 
-  decreaseQuantity(item: any): void {
+  decreaseQuantity(item: Iitem): void {
     if (item.quantity > 0) {
       item.quantity--;
     }
@@ -56,7 +62,7 @@ export class MenuComponent {
   async finalizeOrder() {
     const selectedItems = this.items.filter(item => item.quantity > 0);
 
-    const order = {
+    const order: INewOrder = {
       clientName: this.clientName,
       items: selectedItems
     }

@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { isPlatformBrowser } from '@angular/common';
 import { OrderService } from '../../services/order.service';
+import { IOrder } from '../../models/order.model';
 
 @Component({
   selector: 'app-orders',
@@ -54,7 +55,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
     this.socketService.disconnect();
   }
 
-  async changeStatus(order: any, status: string): Promise<void> {
+  async changeStatus(order: IOrder, status: string): Promise<void> {
     const orderToChangeStatusindex = this.orders.findIndex(arrayOrder => arrayOrder.id === order.id);
     this.orders[orderToChangeStatusindex].status = status;
 
